@@ -1,0 +1,11 @@
+import pandas as pd
+
+data = pd.read_excel("input.xlsx")
+
+df2=data.drop(['Team Name','S No'], axis=1)
+df2 = df2.sort_values(['total_statements', 'total_reasons'], ascending=False)
+df2.index = [x for x in range(1, len(df2.values)+1)]
+df2.index.name = 'Rank'
+df2.rename(columns={"User ID": "UID","total_statements":"No. of Statements","total_reasons":"No. of Reasons"}, inplace=True)
+
+df2.to_excel('output2.xlsx')
