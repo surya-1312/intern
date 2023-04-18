@@ -1,0 +1,15 @@
+import pandas as pd
+
+data = pd.read_excel("input.xlsx")
+
+Average_statement= data.groupby('Team Name')['total_statements'].mean().reset_index()
+Average_Reason =   data.groupby('Team Name')['total_reasons'].mean().reset_index()
+
+df2 = pd.merge(Average_statement, Average_Reason, left_index=True, right_index=True)
+df2=df2.drop(['Team Name_y'], axis=1)
+df2 = df2.sort_values(['total_statements', 'total_reasons'], ascending=False)
+df2.index = [x for x in range(1, len(df2.values)+1)]
+df2.index.name = 'Team Rank'
+df2.rename(columns={"Team Name_x": "Thinking Teams Leaderboard"}, inplace=True)
+
+df2.to_excel('output1.xlsx')
